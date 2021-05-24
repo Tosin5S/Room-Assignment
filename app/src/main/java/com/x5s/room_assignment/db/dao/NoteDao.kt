@@ -1,5 +1,6 @@
 package com.x5s.room_assignment.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.x5s.room_assignment.db.entities.NoteEntity
 
@@ -7,7 +8,7 @@ import com.x5s.room_assignment.db.entities.NoteEntity
 @Dao
 interface NoteDao {
     @Query("SELECT * FROM note")
-    fun selectAllNotes(): List<NoteEntity>
+    fun selectAllNotes(): LiveData<List<NoteEntity>>
 
     @Insert
     fun insertNotes(noteEntity:NoteEntity)
