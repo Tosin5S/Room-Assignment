@@ -1,65 +1,62 @@
 package com.x5s.room_assignment
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+
+import android.content.Context
 import android.os.Bundle
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.x5s.room_assignment.adapter.NoteAdapter
-import com.x5s.room_assignment.db.NoteRepository
-import com.x5s.room_assignment.db.entities.NoteEntity
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var noteAdapter: NoteAdapter
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var addNoteBtn: FloatingActionButton
-    private lateinit var noteRepository: NoteRepository
 
-
+    private var userViewModel: UserViewModel? = null
+    private var usernameText: EditText? = null
+    private var passwordText: EditText? = null
+    private var signUpButton: Button? = null
+    private var loginButton: Button? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        init()
-    }
+        usernameText = findViewById<View>(R.id.username) as EditText
+        passwordText = findViewById<View>(R.id.password) as EditText
+        signUpButton = findViewById<View>(R.id.signup) as Button
+        loginButton = findViewById<View>(R.id.login) as Button
 
-    private fun init(){
-        noteAdapter = NoteAdapter()
-        linearLayoutManager = LinearLayoutManager(this)
+        userViewModel = ViewModelProviders.of(this, UserViewModel.Factory(applicationContext)).get(UserViewModel::class.java)
 
-        recyclerView = findViewById(R.id.recyclerView)
+        val signup = getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+                .getBoolean("signup", true)
 
-        addNoteBtn = findViewById(R.id.floatingActionButton)
+        if (signup) {
+            signUpButton!!.visibility = View.VISIBLE
+            loginButton!!.visibility = View.GONE
+        } else {
+            signUpButton!!.visibility = View.GONE
+            loginButton!!.visibility = View.VISIBLE
 
-        recyclerView.adapter = noteAdapter
-
-        recyclerView.layoutManager = linearLayoutManager
-
-        noteRepository = NoteRepository(this)
-
-        //insertDataIntoDb()
-        addNoteBtn.setOnClickListener{
-            openAddNote()
         }
+        signUpButton!!.setOnClickListener {
+            userViewModel!!.createUser(usernameText!!.text.toString(), passwordText!!.text.toString())
+            getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE).edit()
+                    .putBoolean("signup", false).apply()
+            Toast.makeText(baseContext, "Successfully Created An Account!", Toast.LENGTH_LONG).show()
+        }
+
+        loginButton!!.setOnClickListener {
+            val isValid = userViewModel!!.checkValidLogin(usernameText!!.text.toString(), passwordText!!.text.toString())
+            if (isValid) {
+                Toast.makeText(baseContext, "Successfully Logged In!", Toast.LENGTH_LONG).show()
+                Log.i("Successful_Login", "Login was successful")
+            } else {
+                Toast.makeText(baseContext, "Invalid Login!", Toast.LENGTH_SHORT).show()
+                Log.i("Unsuccessful_Login", "Login was not successful")
+            }
+        }
+
     }
 
-    override fun onResume(){
-        super.onResume()
-        noteRepository.getAllNotes().observe(this, { notes ->
-            noteAdapter.submitList(notes)
-            noteAdapter.notifyDataSetChanged()
-        })
-    }
-
-    private fun openAddNote(){
-        val intent = Intent(this,AddNoteActivity::class.java)
-        startActivity(intent)
-    }
-
-    //private fun insertDataIntoDb(){
-      //  val noteEntity = NoteEntity(title ="Hey", description = "Hi, How are you")
-       // noteRepository.insertNote(noteEntity)
-    //}
 }
