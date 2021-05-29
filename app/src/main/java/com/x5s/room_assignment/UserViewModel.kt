@@ -6,10 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.x5s.room_assignment.data.UserAccountDatabase
 import com.x5s.room_assignment.data.UserRepository
 
-/**
- * Created by divya on 5/16/2018.
- */
-
 class UserViewModel(context: Context) : ViewModel() {
 
     private val userRepository: UserRepository
