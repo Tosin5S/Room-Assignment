@@ -14,14 +14,8 @@ class CategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-        //GridLayoutManager(this, 2, RecyclerView.VERTICAL,false).apply{
-        //factListView.layoutManager = this
 
-        //}
         setUpFact(binding)
-
-
-
     }
 
     private fun setUpFact(binding: ActivityCategoryBinding){
@@ -30,12 +24,5 @@ class CategoryActivity : AppCompatActivity() {
         binding.factListView.layoutManager = GridLayoutManager(this,2)
 
     }
-
-
-    //override fun onDestroy(){
-    //super.onDestroy()
-    //binding = null
-    //}
-
 }
 

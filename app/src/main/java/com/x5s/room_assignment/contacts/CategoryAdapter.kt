@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.x5s.room_assignment.R
 
-
 class CategoryAdapter: RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     private val categories = listOf(
@@ -43,19 +42,15 @@ class CategoryAdapter: RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(
 
     )
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fact_item, parent, false)
 
         return CategoryViewHolder(itemView)
-
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val fact = categories[position]
         holder.bindItem(fact)
-
-
 
     }
 
@@ -68,9 +63,6 @@ class CategoryAdapter: RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(
         val logo = itemView.findViewById<ImageView>(R.id.imageLogo)
         val name = itemView.findViewById<TextView>(R.id.nameTv)
         fun bindItem(fact: ContactModel) {
-            //binding.imageLogo = fact.logo
-            //binding.nameTv = fact.name
-
 
             fact.logo.let {
                 logo.setImageResource(fact.logo)
@@ -84,12 +76,8 @@ class CategoryAdapter: RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(
                 intent.putExtra(FACT_EXTRAS, fact.fact)
                 itemView.context.startActivity(intent)
             }
-
-
-
         }
     }
-
 
     companion object {
         val LOGO_EXTRAs = "Logo_extras"
