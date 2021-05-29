@@ -2,6 +2,7 @@ package com.x5s.room_assignment
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -40,11 +41,16 @@ class MainActivity : AppCompatActivity() {
             //loginButton!!.visibility = View.VISIBLE
 
        // }
+        //val intent = Intent(this, LoginActivity::class.java)
+        //startActivity(intent)
+
         signUpButton!!.setOnClickListener {
             userViewModel!!.createUser(usernameText!!.text.toString(), passwordText!!.text.toString())
             getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE).edit()
-                    .putBoolean("signup", false).apply()
+                    .putBoolean("signup", true).apply()
             Toast.makeText(baseContext, "Successfully Created An Account!", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
 
         /*loginButton!!.setOnClickListener {
