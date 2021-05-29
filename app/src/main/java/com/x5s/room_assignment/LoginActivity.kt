@@ -1,6 +1,7 @@
 package com.x5s.room_assignment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.x5s.room_assignment.contacts.CategoryActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -51,6 +53,8 @@ class LoginActivity : AppCompatActivity() {
             if (isValid) {
                 Toast.makeText(baseContext, "Successfully Logged In!", Toast.LENGTH_LONG).show()
                 Log.i("Successful_Login", "Login was successful")
+                val intent = Intent(this, CategoryActivity::class.java)
+                startActivity(intent)
             } else {
                 Toast.makeText(baseContext, "Invalid Login!", Toast.LENGTH_SHORT).show()
                 Log.i("Unsuccessful_Login", "Login was not successful")
