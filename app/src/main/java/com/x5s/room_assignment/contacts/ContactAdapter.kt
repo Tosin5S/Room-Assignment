@@ -39,6 +39,4 @@ class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
             binding.numberTv.text = contact.number
         }
     }
-
-
 }

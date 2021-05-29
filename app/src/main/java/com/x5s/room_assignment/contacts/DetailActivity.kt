@@ -67,14 +67,8 @@ class DetailActivity : AppCompatActivity() {
             alertDialog.dismiss()
         }
 
-
         binding.fab.setOnClickListener{
             alertDialog.show();
         }
-
     }
-
-    //override fun onDestroy(){
-    //super.onDestroy()
-    //binding = null
 }
